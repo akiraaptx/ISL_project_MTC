@@ -17,28 +17,28 @@ def unzipIncident():
     print("There are " + str(count) + " files in total.")
     
     for file in fileList:
-        try:
-            thisFile = gzip.GzipFile(fileobj=open(file, 'rb'))
-            # thisFile = open(file, 'rb')
-            data = thisFile.read()
-            dataStr = str(data)
-            filepath = destPath + file[len(basePath):-3]
-            if not os.path.exists(filepath):	# if the file has already been unzipped, do nothing here
-	      try:
-		output = open(filepath, 'w+')
-	      except IOError:
-		# If not exists, create the file
-		os.makedirs(os.path.dirname(filepath))
-		output = open(filepath, 'w+')
-	      output.write(dataStr)
-	      output.close()
-	      print("file: " + filepath + " has been created.")
+	filepath = destPath + file[len(basePath):-3]
+        if not os.path.exists(filepath):	# if the file has already been unzipped, do nothing here
+	  try:
+	    thisFile = gzip.GzipFile(fileobj=open(file, 'rb'))
+	    # thisFile = open(file, 'rb')
+	    data = thisFile.read()
+	    dataStr = str(data)
+	    try:
+	      output = open(filepath, 'w+')
+	    except IOError:
+	      # If not exists, create the file
+	      os.makedirs(os.path.dirname(filepath))
+	      output = open(filepath, 'w+')
+	    output.write(dataStr)
+	    output.close()
+	    print("file: " + filepath + " has been created.")
 	      # output.write(dataStr)
-	    else: 
-	      #print("file: " + filepath + " already exists")
-	      continue 
-        except (struct.error, zlib.error, OSError) as e:	# need explain
-            pass
+	  except (struct.error, zlib.error, OSError) as e:	# need explain
+	    pass
+    	else: 
+	  print("file: " + filepath + " already exists")
+	  continue 
     print("Unzip .gz files to xml Completed.")
 
 def traverseFolder(basePath, suffix):
