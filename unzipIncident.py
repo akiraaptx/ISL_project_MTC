@@ -32,7 +32,7 @@ def unzipIncident():
 		output = open(filepath, 'w+')
 	      output.write(dataStr)
 	      output.close()
-	      print("file: " + filepath + "has been created.")
+	      print("file: " + filepath + " has been created.")
 	      # output.write(dataStr)
 	    else: 
 	      #print("file: " + filepath + " already exists")
