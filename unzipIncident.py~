@@ -1,0 +1,38 @@
+import os
+import gzip
+import zlib
+import struct
+
+def unzipIncident():
+    basePath = '~/Mobility_Data_Mining/origin_data'	# the basePath is the path where you data folder is
+    fileList = traverseFolder(basePath, '.gz')
+    # DSTdates = getRecentDSTdates()
+    for file in fileList:
+        try:
+            thisFile = gzip.GzipFile(fileobj=open(file, 'rb'))
+            # thisFile = open(file, 'rb')
+            data = thisFile.read()
+            dataStr = str(data)
+            destPath = '~/Mobility_Data_Mining/unzip_data'
+            output = open(destPath+file[28:-3],'w')
+            output.write(dataStr)
+            output.close()
+            print(file)
+        except (struct.error, zlib.error, OSError) as e:
+            pass
+
+def traverseFolder(basePath, suffix):
+    # print(basePath)
+    # os.chdir(basePath)
+    fileList = []
+    for file in os.listdir(basePath):
+        if os.path.isdir(basePath+file): # if current path is still the folder, then get into it
+            thisPath = basePath+file+'/'
+            fileList = fileList+traverseFolder(thisPath, suffix)
+        elif file.endswith(suffix):
+            fileName = basePath+file
+            fileList.append(fileName)
+    return fileList
+
+if __name__ == '__main__':
+    unzipIncident()
