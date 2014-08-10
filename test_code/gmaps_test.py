@@ -1,5 +1,6 @@
 import pygmaps
 import webbrowser
+
 mymap = pygmaps.maps(43.579477,  -86.399497, 9)
 # mymap.setgrids(37.42, 37.43, 0.001, -122.15, -122.14, 0.001)
 mymap.addpoint(37.427, -122.145, "#0000FF00")
