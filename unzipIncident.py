@@ -2,12 +2,20 @@ import os
 import gzip
 import zlib
 import struct
+import sys
+from optparse import OptionParser
 
-def unzipIncident():
-    basePath = '/media/mayuanakira/Seagate Fast HDD Drive/Mobility_Data_Mining/origin_data/'	# the basePath is the path where you data folder is
+def unzipIncident(basePath, destPath):
     # DSTdates = getRecentDSTdates()
-    destPath = '/media/mayuanakira/Seagate Fast HDD Drive/Mobility_Data_Mining/unzip_data/'
-    if not os.path.exists(destPath): os.makedirs(destPath)
+    if not os.path.exists(basePath):
+      print "Error: basepath %s doesn't exist" % basePath
+      sys.exit(-1)
+    if not os.path.exists(destPath):
+      try:
+	os.makedirs(destPath)
+      except OSError:
+	if not os.path.isdir(path):
+	  raise
     
     global count
     count = 0
@@ -57,5 +65,28 @@ def traverseFolder(basePath, suffix):
             fileList.append(fileName)
     return fileList
 
+def main(): 
+    parser = OptionParser(usage = "usage: %prog [-b] arg1 [-d] arg2", version = "%prog 1.0")
+    parser.add_option("-b", "--basepath", action="store", dest="basepath",
+		      default='/media/mayuanakira/Seagate Fast HDD Drive/Mobility_Data_Mining/origin_data/',
+		      help="set BASEPATH of the zipped files.")
+    parser.add_option("-d", "--destpath", action="store", dest="destpath",
+		      default='/media/mayuanakira/Seagate Fast HDD Drive/Mobility_Data_Mining/unzip_data/',
+                      help="set DESTPATH of the zipped files.")
+    parser.add_option("-v", "--verbose",
+                      action="store_true", dest="verbose")
+    parser.add_option("-q", "--quiet",
+                      action="store_false", dest="verbose")
+    (options, args) = parser.parse_args()
+    # print options
+    # print args
+    # if len(options) < 3:
+        # parser.error("incorrect number of arguments")
+    if options.verbose:
+        print "unzip all .gz files in %s..., and extract them in the same folder hierachy in %s" % (options.basepath, options.destpath)
+    
+    unzipIncident(options.basepath, options.destpath)
+    
 if __name__ == '__main__':
-    unzipIncident()
+  main()
+
