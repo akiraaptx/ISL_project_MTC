@@ -13,13 +13,13 @@ class Point:
   longitude = 0.0
   latitude = 0.0
   
-class coRoute:
+class Trip:
   name = ''
   start_point = Point()
   end_point = Point()
   path_list = None # list cannot be initialized here!
   path_color = ''
-  coRoute_index = 0
+  Trip_index = 0
   
 def traverseFolder(directory, suffix, number):
     fileList = []
@@ -62,16 +62,16 @@ def draw_coroutes(directory, number):
   coRoute_list = []
   
   for file in filelist:
-    coRoute_data = load_mat_file(file)
-    point_list = extract_points_location(coRoute_data)
+    Trip_data = load_mat_file(file) # load origin .mat data
+    point_list = extract_points_location(Trip_data)
     
-    route = coRoute()
-    route.name = file
-    route.start_point = point_list[0]
-    route.end_point = point_list[-1]
-    route.coRoute_index = index
-    route.path_list = []
-    route.path_color = color_list[index]
+    trip = Trip()
+    trip.name = file
+    trip.start_point = point_list[0]
+    trip.end_point = point_list[-1]
+    trip.Trip_index = index
+    trip.path_list = []
+    trip.path_color = color_list[index]
     
     for i in point_list:
       route.path_list.append(tuple([i.longitude, i.latitude]))
@@ -90,19 +90,22 @@ def draw_coroutes(directory, number):
     coRoute_list.append(route)
 
 def load_mat_file (filepath):
-  structure_data = loadmat(filepath)
-  coRoute_data = structure_data['coRoute']
-  return coRoute_data
+  structure_data = c(filepath)
+  Trip_data = structure_data['trip']
+  return Trip_data
 
 # extract data of each point
-def extract_points_location (coRoute_data):
-  point_list = []
+def extract_points_location (Trip_data):
 
-  for i in coRoute_data:
+  a = Trip_data['Location']
+  b = a['Longitude']
+  print(len(b))
+  c = a['Latitude']
+  
+  for i in Trip_data:
     new_point = Point()
-    new_point.longitude = i[1]
-    new_point.latitude = i[0]
-    point_list.append(new_point)   
+
+    point_list.append(new_point)
   return point_list
 
 def main(): 
