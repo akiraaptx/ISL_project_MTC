@@ -1,3 +1,6 @@
+
+
+
 from scipy.io import loadmat
 import pygmaps
 import webbrowser
@@ -107,7 +110,7 @@ def extract_points_location (coRoute_data):
 def main(): 
     parser = OptionParser(usage = "usage: %prog [-b] arg1 [-n] arg2", version = "%prog 1.0")
     parser.add_option("-d", "--directory", action="store", dest="directory",
-		      default='/home/mayuanakira/Mobility_Data_Mining/data/test_data/DTD_coRoute_mat/',
+		      default='../test_data/SOSD1/',
 		      help="set directory path of coroute .mat files.")
     parser.add_option("-n", "--number", action="store", dest="number",
 		      default=10,
