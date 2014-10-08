@@ -1,8 +1,8 @@
 from scipy.io import loadmat
 import pygmaps
 import webbrowser
-
 import os
+import errno
 import gzip
 import zlib
 import struct
@@ -34,9 +34,18 @@ def traverseFolder(directory, suffix, number):
               break
     return fileList
 
-def draw_coroutes(directory, number):
+def make_sure_path_exists(path):
+    try:
+        os.makedirs(path)
+    except OSError as exception:
+        if exception.errno != errno.EEXIST:
+            raise
+          
+def draw_coroutes(directory, outputpath, number):
   filelist = traverseFolder(directory, '.mat', number)
   print(filelist)
+
+  make_sure_path_exists(outputpath)
   
   color_list = ['Aqua',
     'Alizarin crimson',
@@ -82,8 +91,8 @@ def draw_coroutes(directory, number):
     mymap.addpoint(route.end_point.longitude, route.end_point.latitude, end_color)
     mymap.addpath(route.path_list, color_dictionary[route.path_color])
     index = index + 1
-    
-    map_path = file.split("/")[-1][:-4] + '.map.draw.html'  # delete the '.mat' and add '.map.draw.html'
+
+    map_path = outputpath + file.split("/")[-1][:-4] + '.map.draw.html'  # delete the '.mat' and add '.map.draw.html'
     mymap.draw(map_path)
     url = map_path
     webbrowser.open_new_tab(url)
@@ -117,6 +126,9 @@ def main():
                       action="store_true", dest="verbose")
     parser.add_option("-q", "--quiet",
                       action="store_false", dest="verbose")
+    parser.add_option("-o", "--output", action="store", dest="outputpath",
+          default='./output/coRoutes/',
+          help="output path.")
     (options, args) = parser.parse_args()
     # print options
     # print args
@@ -125,7 +137,7 @@ def main():
     if options.verbose:
         print "unzip all .gz files in %s..., and extract them in the same folder hierachy in %s" % (options.directory, options.number)
     
-    draw_coroutes(options.directory, 7)
+    draw_coroutes(options.directory, options.outputpath, 7)
     
 if __name__ == '__main__':
   main()
