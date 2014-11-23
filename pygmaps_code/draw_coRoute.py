@@ -47,13 +47,14 @@ def draw_coroutes(directory, outputpath, number):
 
   make_sure_path_exists(outputpath)
   
-  color_list = ['Aqua',
+  color_list = ['Deep pink',
     'Alizarin crimson',
     'Amber',
     'Amethyst',
     'Android Green',
     'Azure',
-    'Deep pink']
+    'Aqua',
+    'Magenta']
   
   color_dictionary = {'Aqua':       "#00ffff",
           'Alizarin crimson': "#e32636",
@@ -61,7 +62,8 @@ def draw_coroutes(directory, outputpath, number):
           'Amethyst':   "#9966cc",
           'Android Green':    "#a4c639",
           'Azure':      "#007fff",
-          'Deep pink':    "#ff1493"
+          'Deep pink':    "#ff1493",
+          'Magenta':  "#f00ff"
       }
   
   start_color = "#0000FF"
@@ -83,12 +85,12 @@ def draw_coroutes(directory, outputpath, number):
     route.path_color = color_list[index]
     
     for i in point_list:
-      route.path_list.append(tuple([i.longitude, i.latitude]))
+      route.path_list.append(tuple([i.latitude, i.longitude]))
 
     # draw start point, end point, route_path
-    mymap = pygmaps.maps(route.start_point.longitude, route.start_point.latitude, 12) # start a map
-    mymap.addpoint(route.start_point.longitude, route.start_point.latitude, start_color)
-    mymap.addpoint(route.end_point.longitude, route.end_point.latitude, end_color)
+    mymap = pygmaps.maps(route.start_point.latitude, route.start_point.longitude, 12) # start a map
+    mymap.addpoint(route.start_point.latitude, route.start_point.longitude, start_color)
+    mymap.addpoint(route.end_point.latitude, route.end_point.longitude, end_color)
     mymap.addpath(route.path_list, color_dictionary[route.path_color])
     index = index + 1
 
@@ -117,7 +119,7 @@ def extract_points_location (coRoute_data):
 def main(): 
     parser = OptionParser(usage = "usage: %prog [-b] arg1 [-n] arg2", version = "%prog 1.0")
     parser.add_option("-d", "--directory", action="store", dest="directory",
-          default='./test_data/SOSD1/',
+          default='../test_data/Data_processing/',
           help="set directory path of coroute .mat files.")
     parser.add_option("-n", "--number", action="store", dest="number",
           default=10,
@@ -127,7 +129,7 @@ def main():
     parser.add_option("-q", "--quiet",
                       action="store_false", dest="verbose")
     parser.add_option("-o", "--output", action="store", dest="outputpath",
-          default='./output/coRoutes/',
+          default='../test_data/output/coRoutes/',
           help="output path.")
     (options, args) = parser.parse_args()
     # print options

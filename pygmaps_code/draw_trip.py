@@ -80,24 +80,24 @@ def draw_trips(directory, outputpath, number):
   
   make_sure_path_exists(outputpath)
   
-  color_list = ['Aqua',
-    'Alizarin crimson',
-    'Amber',
-    'Amethyst',
-    'Android Green',
-    'Azure',
-    'Deep pink',
-    'Magenta']
-  
+  color_list = ['Deep pink',
+      'Alizarin crimson',
+      'Amber',
+      'Amethyst',
+      'Android Green',
+      'Azure',
+      'Aqua',
+      'Magenta']
+    
   color_dictionary = {'Aqua':       "#00ffff",
-          'Alizarin crimson': "#e32636",
-          'Amber':      "#ffbf00",
-          'Amethyst':   "#9966cc",
-          'Android Green':    "#a4c639",
-          'Azure':      "#007fff",
-          'Deep pink':    "#ff1493",
-          'Magenta':	"#f00ff"
-      }
+            'Alizarin crimson': "#e32636",
+            'Amber':      "#ffbf00",
+            'Amethyst':   "#9966cc",
+            'Android Green':    "#a4c639",
+            'Azure':      "#007fff",
+            'Deep pink':    "#ff1493",
+            'Magenta':	"#f00ff"
+        }
   
   start_color = "#0000FF"
   end_color = "#FF0000"
@@ -155,7 +155,7 @@ def extract_points_location (Trip_data):
 def main(): 
     parser = OptionParser(usage = "usage: %prog [-b] arg1 [-n] arg2", version = "%prog 1.0")
     parser.add_option("-d", "--directory", action="store", dest="directory",
-    default='../test_data/SOSD1/',
+    default='../test_data/Data_processing/',
           help="set directory path of trips .mat files.")
     parser.add_option("-n", "--number", action="store", dest="number",
           default=10,
